@@ -20,7 +20,7 @@ export default function App() {
         }}
       />
       <main className="content">
-        <Outlet />
+        <Outlet context={{ loggedIn, setLoggedIn }} />
       </main>
     </div>
   )
