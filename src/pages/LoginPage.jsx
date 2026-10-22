@@ -30,10 +30,13 @@ export default function LoginPage(props) {
           outletContext.setLoggedIn(true)
           outletContext.setEmail(email)
           navigate('/profile')
-        }
+        } else {
+                  }
 
       } else {
+        // Bad email or password?
         console.warn(res.statusText)
+        alert("Bad email or password, you can't log in with these! Please type again.")
       }
     })
     .catch(console.warn)
