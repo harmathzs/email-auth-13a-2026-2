@@ -30,11 +30,22 @@ app.post('/login', (req, res)=>{
                 return res.status(500).json({error: 'Internal Server Error'})
             } else {
                 console.log('result', result)
-                return res.status(200).json({
-                    loggedIn: true,
-                    message: 'Logged in!',
-                    result
-                })
+
+                if (result.length > 0) {
+                    return res.status(200).json({
+                        loggedIn: true,
+                        message: 'Logged in!',
+                        result
+                    })
+                } else {
+                    return res.status(401).json({
+                        loggedIn: false,
+                        message: 'Bad email or password.',
+                        result
+                    })
+                }
+
+
             }
         }
     )
