@@ -1,11 +1,14 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useOutletContext } from 'react-router-dom'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const navigate = useNavigate()
+
+  // <Outlet context={...} -ből így kapjuk
+  const { setLoggedIn } = useOutletContext() 
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -23,7 +26,10 @@ export default function LoginPage() {
         const {loggedIn=false} = response
         console.log('email, loggedIn', email, loggedIn)
 
-        if (loggedIn) navigate('/profile')
+        if (loggedIn) {
+          setLoggedIn(true)
+          navigate('/profile')
+        }
 
       } else {
         console.warn(res.statusText)
