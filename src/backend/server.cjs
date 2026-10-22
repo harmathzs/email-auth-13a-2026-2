@@ -32,11 +32,19 @@ app.post('/login', (req, res)=>{
                 console.log('result', result)
 
                 if (result.length > 0) {
-                    return res.status(200).json({
-                        loggedIn: true,
-                        message: 'Logged in!',
-                        result
+                    // TODO - Open new session for logged-in email
+                    const sessionLifeDays = 1
+                    const nowTimestamp = new Date().getTime()
+                    const expires = new Date(nowTimestamp + 1000*60*60*24*sessionLifeDays)
+                    const sql = `INSERT INTO sessions (name, value, expires, user_id) VALUES (?, ?, ?, ?)`
+                    conn.query(sql, ['loggedIn', 'true', expires, result[0].id], (error2, result2, fields2)=>{
+                        return res.status(200).json({
+                            loggedIn: true,
+                            message: 'Logged in!',
+                            select_result: result, insert_result: result2
+                        })
                     })
+
                 } else {
                     return res.status(401).json({
                         loggedIn: false,
